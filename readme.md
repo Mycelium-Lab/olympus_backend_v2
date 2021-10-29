@@ -32,7 +32,7 @@ docker-compose exec app python -m pytest app/tests
 
 Request:
 ```bash
-curl -X POST "https://6eb9-178-132-207-251.ngrok.io/sign-up" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"email\":\"user@example.com\",\"name\":\"string\",\"password\":\"string\"}"
+curl -X POST "https://127.0.0.1:8080/sign-up" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"email\":\"user@example.com\",\"name\":\"string\",\"password\":\"string\"}"
 ```
 
 Response example:
@@ -55,7 +55,7 @@ Response example:
 
 Request:
 ```bash
-curl -X POST "https://6eb9-178-132-207-251.ngrok.io/auth" -H  "accept: application/json" -H  "Content-Type: application/x-www-form-urlencoded" -d "grant_type=&username=user%40example.com&password=string&scope=&client_id=&client_secret="
+curl -X POST "https://127.0.0.1:8080/auth" -H  "accept: application/json" -H  "Content-Type: application/x-www-form-urlencoded" -d "grant_type=&username=user%40example.com&password=string&scope=&client_id=&client_secret="
 ```
 
 Response example:
@@ -67,4 +67,51 @@ Response example:
 }
 ```
 
+### Check if authorized
 
+Request:
+```bash
+curl -X GET "http://127.0.0.1:8000/users/me" -H  "accept: application/json" -H "Authorization: Bearer {token}"
+```
+
+Response (authorized):
+```json
+{
+  "id": 0,
+  "email": "user@example.com",
+  "name": "string"
+}
+```
+
+Response (unathorized)
+```json
+{
+  "detail": "Not authenticated"
+}
+```
+
+### Example of api usage (/get_first_n /get_top_days)
+
+Request:
+```bash
+curl -X GET "http://127.0.0.1:8000/api/get_first_n/?start=1617291702&days=200&count=1" -H  "accept: application/json" -H "Authorization: Bearer {token}"
+```
+
+Response (authorized):
+```json
+{
+  "data": [
+    {
+      "timestamp": 1617321600,
+      "balance": 0
+    }
+  ]
+}
+```
+
+Response (unathorized)
+```json
+{
+  "detail": "Not authenticated"
+}
+```

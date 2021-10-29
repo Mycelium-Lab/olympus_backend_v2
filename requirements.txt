@@ -1,3 +1,4 @@
+aiogram
 alembic==1.4.2
 asyncpg==0.22.0
 attrs==19.3.0

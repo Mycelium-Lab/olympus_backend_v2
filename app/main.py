@@ -1,7 +1,8 @@
 import uvicorn
 from app.models.database import database
-from app.routers import users, api
+from app.routers import users, api, events, notifications
 from fastapi import FastAPI
+
 #import uvloop
 #loop = uvloop.new_event_loop()
 
@@ -17,7 +18,8 @@ async def startup():
 async def shutdown():
     await database.disconnect()
 
-
+app.include_router(notifications.router)
+app.include_router(events.router)
 app.include_router(api.router)
 app.include_router(users.router)
 
