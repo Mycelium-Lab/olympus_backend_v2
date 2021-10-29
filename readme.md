@@ -8,17 +8,36 @@
 </div>
 
 
-## Running the code
+## Running the server
 
 Run
 
 ```
-$ docker-compose up -d --build
+docker-compose up -d --build
 ```
+
+## Installing the utils and libraries
+
+```bash
+sudo apt install screen
+python3 -m pip install web3, asyncio
+screen -S notifications
+```
+then Ctrl+A+D
+
+## Running the notifications 
+
+```bash
+screen -x notifications
+cd notifications/loops
+python3 event_transfers.py
+```
+then Ctrl+A+D
 
 ## API documentation
 
 http://127.0.0.1:8000/docs
+
 
 ## Testing the code
 
