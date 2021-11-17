@@ -1,5 +1,10 @@
+from gql import gql, Client
+from gql.transport.aiohttp import AIOHTTPTransport
 from datetime import datetime
 import requests
+
+transport = AIOHTTPTransport(url="https://api.thegraph.com/subgraphs/name/deltax2016/olympus-wallets")
+client = Client(transport=transport, fetch_schema_from_transport=True)
 
 async def getTopBalances(timestamp_start, period, balance_gt):
 

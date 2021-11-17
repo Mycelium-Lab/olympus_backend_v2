@@ -1,4 +1,8 @@
-import requests
+from gql import gql, Client
+from gql.transport.aiohttp import AIOHTTPTransport
+
+transport = AIOHTTPTransport(url="https://api.thegraph.com/subgraphs/name/deltax2016/olympus-wallets")
+client = Client(transport=transport, fetch_schema_from_transport=True)
 
 async def getBalances(timestamp_start, period, address):
     timestamp_end = timestamp_start + 86400*period
@@ -11,8 +15,9 @@ async def getBalances(timestamp_start, period, address):
     }}
     """
 
-    request = requests.post('https://api.thegraph.com/subgraphs/name/deltax2016/olympus-wallets', json={'query': queryString})
-    result = request.json()['data']
+    query = gql(queryString)
+
+    result = await client.execute_async(query)
     
     array_balance = []
     for day in result['dailyBalances']:
