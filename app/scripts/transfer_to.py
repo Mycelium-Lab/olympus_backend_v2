@@ -1,9 +1,5 @@
-from gql import gql, Client
-from gql.transport.aiohttp import AIOHTTPTransport
+import requests
 from datetime import datetime
-
-transport = AIOHTTPTransport(url="https://api.thegraph.com/subgraphs/name/deltax2016/olympus-wallets")
-client = Client(transport=transport, fetch_schema_from_transport=True)
 
 async def getTransferTo(timestamp_start, period):
 
@@ -30,9 +26,8 @@ async def getTransferTo(timestamp_start, period):
     """
     # balance before listing
     
-    query = gql(queryString)
-
-    result = await client.execute_async(query)
+    request = requests.post('https://api.thegraph.com/subgraphs/name/deltax2016/olympus-wallets', json={'query': queryString})
+    result = request.json()['data']
     
     days = {}
 
@@ -68,4 +63,3 @@ amount = 10000
 if __name__ == "__main__":
     res = getTransferTo(timestamp_start, days)
     print(res)
-
