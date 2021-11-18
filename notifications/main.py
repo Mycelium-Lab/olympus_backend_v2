@@ -20,6 +20,7 @@ async def on_startup():
             url=WEBHOOK_URL
         )
 
+'''
 @app.get("/unstake")
 async def handle_unstake(amount: int = 100, to: str = ""):
     await unstake(amount,to)
@@ -48,7 +49,7 @@ async def handle_change_unstake(item: Item):
     f.close()
 
     return "ok"
-
+'''
 
 @app.post(WEBHOOK_PATH)
 async def bot_webhook(update: dict):

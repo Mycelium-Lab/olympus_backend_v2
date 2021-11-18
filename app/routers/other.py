@@ -16,6 +16,9 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth")
 
 router = APIRouter()
 
+
+# if u want to use auth add "current_user: users.User = Depends(get_current_user)" to check if user authenticated
+
 # NEW CODE
 @router.get("/api/get_index_n_days")
 async def get_indexes_n_days(start: int = 1617291702, end: int = 1636458860, n: int = 1):
