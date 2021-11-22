@@ -15,8 +15,27 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth")
 
 router = APIRouter()
 
+'''
+this version has no middleware
+
+if u want to use auth, add "current_user: users.User = Depends(get_current_user)" to the routes methods
+
+for example:
+
+    @router.get("/api/get_top_days/")
+    async def get_top_days(start: int = 1617291702, days: int = 1, amount: int = 10000, current_user: users.User = Depends(get_current_user)):
+
+        if not current_user:
+            return {"data": "invalid token"}
+
+        response  = await getTopBalances(start, days, amount)
+        return {"data":response}
+
+
+'''
+
 @router.get("/api/get_top_days/")
-async def get_top_days(start: int = 1617291702, days: int = 1, amount: int = 10000, current_user: users.User = Depends(get_current_user)):
+async def get_top_days(start: int = 1617291702, days: int = 1, amount: int = 10000):
 
     if not current_user:
         return {"data": "invalid token"}
@@ -53,7 +72,7 @@ async def get_total_balances(start: int = 1617291702, days: int = 1):
     return {"data":response}
 
 @router.get("/api/get_first_n/")
-async def get_first_n(start: int = 1617291702, days: int = 1, count: int = 1, current_user: users.User = Depends(get_current_user)):
+async def get_first_n(start: int = 1617291702, days: int = 1, count: int = 1):
     
     if not current_user:
         return {"data": "invalid token"}
