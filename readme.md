@@ -109,24 +109,7 @@ Response (unathorized)
 }
 ```
 
-### Example of api usage (/get_first_n /get_top_days)
-
-Request:
-```bash
-curl -X GET "http://127.0.0.1:8000/api/get_first_n/?start=1617291702&days=200&count=1" -H  "accept: application/json" -H "Authorization: Bearer {token}"
-```
-
-Response (authorized):
-```json
-{
-  "data": [
-    {
-      "timestamp": 1617321600,
-      "balance": 0
-    }
-  ]
-}
-```
+Authentication is currently disabled for all routes because not all subgraph parsers have been migrated to pyhton from javascript. If you would like to enable authentication, please check out the example in /app/routers/api.py
 
 Response (unathorized)
 ```json
