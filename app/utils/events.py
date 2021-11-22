@@ -3,6 +3,7 @@ from threading import Thread
 import time
 import requests
 import asyncio
+from notifications.bot import unstake, transfer, minter, transfer_dao, change_role, activate_role, reserves, mint
 
 def getTokenName(token):
     if token == "0x6B175474E89094C44Da98b954EedeAC495271d0F".lower() or token == "0x6B175474E89094C44Da98b954EedeAC495271d0F":
@@ -17,20 +18,20 @@ def getTokenName(token):
         return str(token)
 
 
-def handle_event(event):
+async def handle_event(event):
     if event['event'] == "Transfer":
         i = event['args']
         tx = event['transactionHash'].hex()
         amount = float(float(i['value'])/1000000000)
         print(amount)
         if (i['from'] == "0x245cc372C84B3645Bf0Ffe6538620B04a217988B"):
-            requests.get(f"http://localhost:8000/transfer_dao?amount={amount}&to={i['to']}&froms={i['from']}&tx={tx}")
+            await transfer_dao(amount, i['from'], i['to'], tx)
         elif (i['from'] == "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a") or (i['from'] == "0xFd31c7d00Ca47653c6Ce64Af53c1571f9C36566a"):
-            requests.get(f"http://localhost:8000/unstake?amount={amount}&to={i['to']}&id={tx}")
+            await unstake(amount,i['to'],tx)
         elif i['from'] == "0x383518188C0C6d7730D91b2c03a03C837814a899":
-            requests.get(f"http://localhost:8000/mint?amount={amount}&to={i['to']}&tx={tx}")
+            await mint(amount,i['to'],tx)
         else:
-            requests.get(f"http://localhost:8000/transfer?amount={amount}&to={i['to']}&froms={i['from']}&tx={tx}")
+            await transfer(amount, i['from'], i['to'], tx)
     elif event['event']=="ChangeQueued":
         role = ""
         if event['args']['managing']==0:
@@ -63,7 +64,7 @@ def handle_event(event):
         elif event['args']['managing']==9:
             role = "SOHM"
             print("SOHM "+event['args']['queued'])
-        requests.get(f"http://localhost:8000/change_role?role={role}&address={event['args']['queued'].hex()}")
+        requests.get(f"http://localhost:8000/change_role?role={role}&address={event['args']['queued']}")
     elif event['event']=="ChangeActivated":
         role = ""
         if event['args']['managing']==0:
@@ -96,9 +97,9 @@ def handle_event(event):
         elif event['args']['managing']==9:
             role = "SOHM"
             print("SOHM "+event['args']['activated']+" "+str(event['args']['result']))
-        requests.get(f"http://localhost:8000/activate_role?role={role}&address={event['args']['activated'].hex()}&activated={str(event['args']['result'])}")
+        requests.get(f"http://localhost:8000/activate_role?role={role}&address={event['args']['activated']}&activated={str(event['args']['result'])}")
     elif event['event']=="ReservesManaged":
-        print("ReservesManaged "+str(event['args']['amount']*(10**-18))+" "+(event['args']['token']))
+        print("ReservesManaged "+str(int(event['args']['amount'])*(10**-18))+" "+(event['args']['token']))
         token = getTokenName(event['args']['token'])
         requests.get(f"http://localhost:8000/reserves_managed?amount={event['args']['amount']*(10**-18)}&token={token}")
     else:
@@ -106,13 +107,13 @@ def handle_event(event):
 
 
 
-def log_loop(event_filter, poll_interval):
+async def log_loop(event_filter, poll_interval):
     while True:
         for event in event_filter.get_new_entries():
-            handle_event(event)
+            await handle_event(event)
         time.sleep(poll_interval)
 
-def main():
+async def main():
     w3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/f7b4f0c651b84c2e93b45e1a398f4f6b'))
     abi = open("ohm.json").read()
     abi_tres = open("treasury.json").read()

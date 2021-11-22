@@ -1,22 +1,29 @@
 import uvicorn
 import asyncio
+from notifications.bot import dp, bot, TOKEN
 from app.models.database import database
 from app.routers import users, api, events, notifications, other
-from ap.utils import main
+from app.utils.events import log_loop
 from fastapi import FastAPI
+import asyncio
+from web3 import Web3
+from threading import Thread
+import time
 
 
+WEBHOOK_PATH = f"/bot/{TOKEN}"
+WEBHOOK_URL = "https://977c-62-84-119-83.ngrok.io" + WEBHOOK_PATH
 
 #import uvloop
 #loop = uvloop.new_event_loop()
-
+'''
 class BackgroundRunner:
 
     async def main(self):
-        
+
         w3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/f7b4f0c651b84c2e93b45e1a398f4f6b'))
-        abi = open("ohm.json").read()
-        abi_tres = open("treasury.json").read()
+        abi = open("./notifications/loops/ohm.json").read()
+        abi_tres = open("./notifications/loops/treasury.json").read()
 
         address = '0x383518188c0c6d7730d91b2c03a03c837814a899'
         contract_instance = w3.eth.contract(address=Web3.toChecksumAddress(address), abi=abi)
@@ -42,14 +49,26 @@ class BackgroundRunner:
 
 
 runner = BackgroundRunner()
-
+'''
 app = FastAPI()
 
 
 @app.on_event("startup")
 async def startup():
     await database.connect()
-    asyncio.create_task(runner.main())
+    #asyncio.create_task(runner.main())
+    webhook_info = await bot.get_webhook_info()
+    if webhook_info.url != WEBHOOK_URL:
+        await bot.set_webhook(
+            url=WEBHOOK_URL
+        )
+
+@app.post(WEBHOOK_PATH)
+async def bot_webhook(update: dict):
+    telegram_update = types.Update(**update)
+    Dispatcher.set_current(dp)
+    Bot.set_current(bot)
+    await dp.process_update(telegram_update)
 
 
 

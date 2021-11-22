@@ -13,9 +13,6 @@ services:
       DB_PASSWORD: root
     ports:
       - "8000:8000"
-  bot:
-    build: second
-    command: python3 ./notifications/loops/events_transfers.py
   db:
     image: postgres
     environment:
