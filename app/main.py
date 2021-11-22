@@ -12,7 +12,7 @@ from threading import Thread
 import time
 
 
-WEBHOOK_PATH = f"/bot/{TOKEN}"
+WEBHOOK_PATH = f"/bot/{TOKEN}/"
 WEBHOOK_URL = "https://2cca-178-132-207-251.ngrok.io" + WEBHOOK_PATH
 
 #import uvloop
