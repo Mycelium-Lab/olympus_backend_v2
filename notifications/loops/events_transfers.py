@@ -4,7 +4,7 @@ import time
 import requests
 import asyncio
 
-addr = 'https://2cca-178-132-207-251.ngrok.io'
+addr = 'https://7973-178-132-207-251.ngrok.io'
 
 def getTokenName(token):
     if token == "0x6B175474E89094C44Da98b954EedeAC495271d0F".lower() or token == "0x6B175474E89094C44Da98b954EedeAC495271d0F":
