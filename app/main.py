@@ -1,6 +1,7 @@
 import uvicorn
 import asyncio
 from notifications.bot import dp, bot, TOKEN
+from fastapi.middleware.cors import CORSMiddleware
 from app.models.database import database
 from app.routers import users, api, events, notifications, other
 from app.utils.events import log_loop
