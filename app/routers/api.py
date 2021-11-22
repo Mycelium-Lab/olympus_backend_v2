@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from app.scripts.getTop import getTopBalances
 from app.scripts.getBalance import getBalances
-from app.scripts.firstN import getFirstWallets
+from app.scripts.firstN import getFirstLegacy
 from app.scripts.getTotal import totalWallets, totalBalances
 
 from fastapi.security import OAuth2PasswordBearer
