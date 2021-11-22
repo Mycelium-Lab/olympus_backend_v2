@@ -71,5 +71,5 @@ async def get_total_balances(start: int = 1617291702, days: int = 1):
 @router.get("/api/get_first_n/")
 async def get_first_n(start: int = 1617291702, days: int = 1, count: int = 1):
 
-    response  = await getFirstWallets(start, days, count)
+    response  = await getFirstLegacy(start, days, count)
     return {"data":response}
