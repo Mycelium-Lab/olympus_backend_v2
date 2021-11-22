@@ -12,7 +12,7 @@ import time
 
 
 WEBHOOK_PATH = f"/bot/{TOKEN}"
-WEBHOOK_URL = "https://977c-62-84-119-83.ngrok.io" + WEBHOOK_PATH
+WEBHOOK_URL = "https://2cca-178-132-207-251.ngrok.io" + WEBHOOK_PATH
 
 #import uvloop
 #loop = uvloop.new_event_loop()
@@ -69,6 +69,18 @@ async def bot_webhook(update: dict):
     Dispatcher.set_current(dp)
     Bot.set_current(bot)
     await dp.process_update(telegram_update)
+
+@app.get("/twitter/get_id")
+async def get_user_id(usernames: str=""):
+    headers = {"Authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAAMBVQEAAAAAM53SnmlTm5qvzqacgc2W0aPuyUQ%3D4VjOnXdLv99M3Jx3r6WZn3UtWoTr3CMLGQecA3Irt8sLlpGIkn"}
+    response  = requests.get(f"https://api.twitter.com/2/users/by?usernames={usernames}", headers=headers).json()
+    return response
+
+@app.get("/twitter/get_tweets")
+async def get_user_id(uid: str = ""):
+    headers = {"Authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAAMBVQEAAAAAM53SnmlTm5qvzqacgc2W0aPuyUQ%3D4VjOnXdLv99M3Jx3r6WZn3UtWoTr3CMLGQecA3Irt8sLlpGIkn"}
+    response  = requests.get(f"https://api.twitter.com/2/users/{uid}/tweets?max_results=25&expansions=author_id&user.fields=username,id,name,created_at,profile_image_url&tweet.fields=id,text,created_at", headers=headers).json()
+    return response
 
 
 
