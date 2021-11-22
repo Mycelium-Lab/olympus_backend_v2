@@ -1,1 +1,1 @@
-{}
+{1060486185: {'notifications': 'no'}, 84618161: {'notifications': 'all'}, 497208564: {'notifications': 'all'}}
