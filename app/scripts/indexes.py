@@ -6,7 +6,7 @@ from datetime import datetime
 def getLogRebases(end):
 
 	queryString = f"""query getLogRebases {{
-		logRebaseDailies(orderBy: timestamp, first:1000, where:{{timestamp_lte:"{end}"}}) {{
+		logRebaseDailies(orderBy: timestamp, first:1000, where:{{timestamp_lt:"{end}"}}) {{
 			timestamp
 			index
 			hours(orderBy: timestamp, first:24) {{
@@ -42,7 +42,7 @@ async def parseNDays(timestamp_start, timestamp_end, n):
 	print(start)
 	end = timestamp_end - (timestamp_end % (86400))
 
-	days = getLogRebases(timestamp_end+(86400*n))['data']['logRebaseDailies']
+	days = getLogRebases(timestamp_end)['data']['logRebaseDailies']
 	result = []
 
 	if days:

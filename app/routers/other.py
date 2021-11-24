@@ -31,17 +31,17 @@ async def get_index_n_hours(start: int = 1623700800, end: int = 1623906000, n: i
     return {"data":response}
 
 @router.get("/api/get_ga_n_minutes")
-async def get_index_n_minutes(start: int = 1623702000, end: int = 1623907200, n: int = 1, types: str = 'marketCapacity'):
+async def get_index_n_minutes(start: int = 1623702000, end: int = 1623907200, n: int = 1, types: str = 'marketCap'):
     response  = await parseGANMinutes(start, end, n, types)
     return {"data":response}
 
 @router.get("/api/get_ga_n_days")
-async def get_indexes_n_days(start: int = 1617291702, end: int = 1636458860, n: int = 1, types: str = 'marketCapacity'):
+async def get_indexes_n_days(start: int = 1617291702, end: int = 1636458860, n: int = 1, types: str = 'marketCap'):
     response  = await parseGANDays(start, end, n, types)
     return {"data":response}
 
 @router.get("/api/get_ga_n_hours")
-async def get_index_n_hours(start: int = 1623700800, end: int = 1623906000, n: int = 1, types: str = 'marketCapacity'):
+async def get_index_n_hours(start: int = 1623700800, end: int = 1623906000, n: int = 1, types: str = 'marketCap'):
     response  = await parseGANHours(start, end, n, types)
     return {"data":response}
 
