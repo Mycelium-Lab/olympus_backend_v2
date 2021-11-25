@@ -39,6 +39,6 @@ bot_table = sqlalchemy.Table(
     "bot_users",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("chat_id", sqlalchemy.Integer, unique=True, index=True),
+    sqlalchemy.Column("chat_id", sqlalchemy.BigInteger, unique=True, index=True),
     sqlalchemy.Column("notifications", sqlalchemy.String(40)),
 )

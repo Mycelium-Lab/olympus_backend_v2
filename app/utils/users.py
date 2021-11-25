@@ -38,6 +38,10 @@ async def get_bot_user_by_chat(chat_id: int):
     query = bot_table.select().where(bot_table.c.chat_id == chat_id)
     return await database.fetch_one(query)
 
+async def get_all_bot_users():
+    query = bot_table.query.all()
+    return await database.execute(query)
+
 
 async def create_user(user: user_schema.UserCreate):
     salt = get_random_string()
