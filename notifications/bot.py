@@ -1,4 +1,5 @@
 from aiogram import Dispatcher, Bot, types
+from app.utils import users as users_utils
 
 TOKEN = "2006547998:AAFvcPVaPciAfCbjKQrFk2UwFsUkse_Yok8"
 bot = Bot(token=TOKEN)
@@ -10,6 +11,9 @@ async def start(message: types.Message):
     file_db = open('./notifications/fake_db.py')
     db = eval(file_db.read())
     file_db.close()
+    db_user = await users_utils.get_bot_user_by_chat(chat_id=message.from_user.id)
+    if not db_user:
+        users_utils.create_bot_user(message.from_user.id, "all")
     db[message.from_user.id] = {"notifications": "all"}
     file_db = open('./notifications/fake_db.py','w')
     file_db.write(str(db))
