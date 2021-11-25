@@ -47,6 +47,17 @@ async def create_user(user: user_schema.UserCreate):
 
     return {**user.dict(), "id": user_id, "is_active": True, "token": token_dict}
 
+async def create_bot_user(chat_id, notifications):
+
+    query = bot_table.insert().values(
+        chat_id = chat_id, notifications = notifications
+    )
+
+    await database.execute(query)
+
+    return {"status":"ok"}
+
+
 
 async def create_user_token(user_id: int):
     query = (
