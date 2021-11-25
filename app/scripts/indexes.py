@@ -6,7 +6,7 @@ from datetime import datetime
 def getLogRebases(end):
 
 	queryString = f"""query getLogRebases {{
-		logRebaseDailies(orderBy: timestamp, first:1000, where:{{timestamp_lt:"{end}"}}) {{
+		logRebaseDailies(orderBy: timestamp, first:1000, where:{{timestamp_lte:"{end}"}}) {{
 			timestamp
 			index
 			hours(orderBy: timestamp, first:24) {{

@@ -31,3 +31,8 @@ class UserCreate(BaseModel):
 
 class User(UserBase):
     token: TokenBase = {}
+
+class BotUserCreate(BaseModel):
+    id: int
+    chat_id: int
+    notifications: str

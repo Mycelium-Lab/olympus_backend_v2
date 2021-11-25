@@ -34,3 +34,11 @@ tokens_table = sqlalchemy.Table(
     sqlalchemy.Column("expires", sqlalchemy.DateTime()),
     sqlalchemy.Column("user_id", sqlalchemy.ForeignKey("users.id")),
 )
+
+bot_table = sqlalchemy.Table(
+    "bot_users",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("chat_id", sqlalchemy.Integer, unique=True, index=True),
+    sqlalchemy.Column("notifications", sqlalchemy.String(40)),
+)
