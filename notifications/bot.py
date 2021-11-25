@@ -25,6 +25,8 @@ async def stop(message: types.Message):
     db = eval(file_db.read())
     file_db.close()
     db[message.from_user.id] = {"notifications": "no"}
+    db_user = users_utils.get_all_bot_users()
+    print(db_user)
     file_db = open('./notifications/fake_db.py','w')
     file_db.write(str(db))
     await message.answer(f"Notifications stopped")

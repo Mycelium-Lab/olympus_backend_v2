@@ -10,6 +10,7 @@ from app.scripts.firstN import getFirstLegacy
 from app.scripts.getTotal import totalWallets, totalBalances
 
 from fastapi.security import OAuth2PasswordBearer
+from app.utils import users as users_utils
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth")
 
@@ -33,6 +34,19 @@ for example:
 
 
 '''
+
+@router.get("/test/start_bot")
+async def bot_startup(chid: int = 1000000000):
+    db_user = await users_utils.get_bot_user_by_chat(chat_id=message.from_user.id)
+    if not db_user:
+        users_utils.create_bot_user(message.from_user.id, "all")
+    return db_user
+
+@router.get("/test/all_users")
+async def all_users():
+    db_user = users_utils.get_all_bot_users()
+    print(db_user)
+    return db_user
 
 @router.get("/api/get_top_days/")
 async def get_top_days(start: int = 1617291702, days: int = 1, amount: int = 10000):
