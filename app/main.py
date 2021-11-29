@@ -11,6 +11,7 @@ import asyncio
 from web3 import Web3
 from threading import Thread
 import time
+import requests
 
 
 WEBHOOK_PATH = f"/bot/{TOKEN}/"
