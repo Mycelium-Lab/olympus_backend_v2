@@ -70,7 +70,7 @@ async def parseGANDays(timestamp_start, timestamp_end, n, types):
 		for i in range(int(last_timestamp)+86400, end, 86400):
 			obj = {}
 			obj['timestamp'] = i
-			obj[types] = 0
+			obj[types] = result[-1][types]
 
 			result.append(obj)
 	else:
@@ -217,7 +217,7 @@ async def parseGANHours(timestamp_start, timestamp_end, n, types):
 			tempObj = {}
 			tempObj['timestamp'] = i
 
-			if (i > int(last_timestamp)) or (i < int(first_timestamp)):
+			if (i < int(first_timestamp)):
 
 				tempObj[types] = 0
 
@@ -235,7 +235,7 @@ async def parseGANHours(timestamp_start, timestamp_end, n, types):
 
 					else:
 
-						tempObj[types] = result[cnt-1][types]
+						tempObj[types] = result[-1][types]
 			cnt += 1
 			result.append(tempObj)
 	else:
@@ -311,7 +311,7 @@ async def parseGANMinutes(timestamp_start, timestamp_end, n, types):
 			tempObj = {}
 			tempObj['timestamp'] = i
 
-			if (i > int(last_timestamp)) or (i < int(first_timestamp)):
+			if i < int(first_timestamp):
 
 				tempObj[types] = 0
 
@@ -329,7 +329,7 @@ async def parseGANMinutes(timestamp_start, timestamp_end, n, types):
 
 					else:
 
-						tempObj[types] = result[cnt-1][types]
+						tempObj[types] = result[-1][types]
 			cnt += 1
 			result.append(tempObj)
 
