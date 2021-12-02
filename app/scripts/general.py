@@ -42,8 +42,8 @@ async def parseGANDays(timestamp_start, timestamp_end, n, types):
 		start = timestamp_start - (timestamp_start % (86400)) + 86400
 
 	end = timestamp_end - (timestamp_end % (86400))
-	print(types)
-	print(getLogRebases(timestamp_end+(86400*n), types))
+	#print(types)
+	#print(getLogRebases(timestamp_end+(86400*n), types))
 	days = getLogRebases(timestamp_end, types)['data']['totalSupplyDailies']
 	result = []
 
@@ -59,8 +59,16 @@ async def parseGANDays(timestamp_start, timestamp_end, n, types):
 
 			result.append(obj)
 
+		ts = int(first_timestamp)
 		for i in days:
 			if int(i['timestamp']) >= timestamp_start:
+				while int(i['timestamp']) != (result[-1]['timestamp']+86400):
+					obj = {}
+					obj['timestamp'] = result[-1]['timestamp']+86400
+					obj[types] = result[-1][types]
+
+					result.append(obj)
+
 				obj = {}
 				obj['timestamp'] = int(i['timestamp'])
 				obj[types] = round(float(i[types]), 2)
@@ -68,6 +76,7 @@ async def parseGANDays(timestamp_start, timestamp_end, n, types):
 				result.append(obj)
 
 		for i in range(int(last_timestamp)+86400, end, 86400):
+
 			obj = {}
 			obj['timestamp'] = i
 			obj[types] = result[-1][types]
