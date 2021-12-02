@@ -62,12 +62,13 @@ async def parseGANDays(timestamp_start, timestamp_end, n, types):
 		ts = int(first_timestamp)
 		for i in days:
 			if int(i['timestamp']) >= timestamp_start:
-				while int(i['timestamp']) != (result[-1]['timestamp']+86400):
-					obj = {}
-					obj['timestamp'] = result[-1]['timestamp']+86400
-					obj[types] = result[-1][types]
+				if result:
+					while int(i['timestamp']) != (result[-1]['timestamp']+86400):
+						obj = {}
+						obj['timestamp'] = result[-1]['timestamp']+86400
+						obj[types] = result[-1][types]
 
-					result.append(obj)
+						result.append(obj)
 
 				obj = {}
 				obj['timestamp'] = int(i['timestamp'])
