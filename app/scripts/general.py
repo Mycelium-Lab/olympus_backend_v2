@@ -385,5 +385,3 @@ async def parseGANMinutes(timestamp_start, timestamp_end, n, types):
 	return new_result
 
 
-
-
