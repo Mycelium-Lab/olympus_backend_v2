@@ -107,26 +107,27 @@ def handle_event(event):
         else:
             print(event)
     except requests.exceptions.ConnectionError as e:
-        print(e)
+        print('requests',e)
     except ValueError as e:
-        print(e)
+        print('requests',e)
     except:
-        print("other exception")
+        print('requests',"other exception")
 
 
 
 def log_loop(event_filter, poll_interval):
-    try:
-        while True:
+    
+    while True:
+        try:
             for event in event_filter.get_new_entries():
                 handle_event(event)
             time.sleep(poll_interval)
-    except requests.exceptions.ConnectionError as e:
-        print(e)
-    except ValueError as e:
-        print(e)
-    except:
-        print("other exception")
+        except requests.exceptions.ConnectionError as e:
+            print('web3',e)
+        except ValueError as e:
+            print('web3',e)
+        except:
+            print('web3',"other exception")
 
 def main():
     w3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/f7b4f0c651b84c2e93b45e1a398f4f6b'))
